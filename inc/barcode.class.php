@@ -38,7 +38,15 @@
 
    ------------------------------------------------------------------------
  */
+//DAR29
 
+function debug_to_console($data) {
+   $output = $data;
+   if (is_array($output))
+       $output = implode(',', $output);
+
+   echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
@@ -260,8 +268,47 @@ class PluginBarcodeBarcode {
 
 
    function printPDF($p_params) {
+      //StartPrintDirect
+      //Variable Data
+      $SERIAL= implode(" ",$p_params['serial']);
+      $ASSET = implode(" ",$p_params['asset']);
+
+      
+
+      $printdata="^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR4,4~SD18^JUS^LRN^CI0^XZ
+      ^XA
+      ^MMT
+      ^PW600
+      ^LL0300
+      ^LS0
+      ^FO224,128^GFA,07040,07040,00044,:Z64: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:B4FC
+      
+      
+   
+      
+      
+      ^FT551,25^A0I,42,40^FH\^FD$SERIAL^FS
+      
+      ^FT551,83^A0I,42,40^FH\^FD$ASSET^FS
+      
+      ^FO25,75
+      ^B0I,10,N,30,N,1,0
+      ^FD$ASSET^FS
+      ^PQ1,0,1,Y^XZ
+      ";
+      
+      //action
+      $fp=pfsockopen("192.168.106.140",9100);
+      fputs($fp,$printdata);
+      fclose($fp);
+      //End Print Direct
+
+
 
       $pbConfig = new PluginBarcodeConfig();
+
+
+
 
       // create barcodes
       $ext         = 'png';
@@ -496,7 +543,28 @@ class PluginBarcodeBarcode {
                } else if ($item->isField('otherserial')) {
                   $codes[] = $item->getField('otherserial');
                }
+
+            // Pulls Serial for PrintDirect
             }
+            foreach ($ids as $key) {
+               $item->getFromDB($key);
+               if (key($ma->items) == 'CommonITILObject') {
+                  $codes_serial[] = $item->getField('id');
+               } else if ($item->isField('otherserial')) {
+                  $codes_serial[] = $item->getField('serial');
+               }
+            }
+            //
+            // Pulls Asset for PrintDirect
+            foreach ($ids as $key) {
+               $item->getFromDB($key);
+               if (key($ma->items) == 'CommonITILObject') {
+                  $codes_asset[] = $item->getField('id');
+               } else if ($item->isField('otherserial')) {
+                  $codes_asset[] = $item->getField('otherserial');
+               }
+            }
+            //
             if (count($codes) > 0) {
                $params['codes']       = $codes;
                $params['type']        = $ma->POST['type'];
@@ -504,7 +572,10 @@ class PluginBarcodeBarcode {
                $params['border']      = $ma->POST['border'];
                $params['orientation'] = $ma->POST['orientation'];
                $params['displaylabels'] = $ma->POST['displaylabels'];
-
+               //Additonal Params for PrintDirect
+               $params['serial'] =$codes_serial;
+               $params['asset'] =$codes_asset;
+               //
                $barcode  = new PluginBarcodeBarcode();
                $file     = $barcode->printPDF($params);
                $filePath = explode('/', $file);
